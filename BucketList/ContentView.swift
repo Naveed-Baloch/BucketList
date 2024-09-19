@@ -42,6 +42,20 @@ struct ContentView: View {
                
                 print(firstUser > secondUser)
             }
+            
+            Button("Write & Read File") {
+                let documentDirectoryPath = URL.documentsDirectory
+                let filePath = documentDirectoryPath.appending(path: "message.txt")
+                let data = Data("Hello from the File Contnet".utf8)
+                
+                do {
+                    try data.write(to: filePath, options: [.atomic, .completeFileProtection])
+                    let input = try String(contentsOf: filePath)
+                    print(input)
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
         }
         .padding()
     }
