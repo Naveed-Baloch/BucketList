@@ -42,25 +42,34 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            Map(
-                position: $position,
-                interactionModes: [.zoom, .rotate, .pan]
-            ) {
-                ForEach(locations) { location in
-                    Annotation(location.name, coordinate: location.coordinate) {
-                        Text(location.name)
-                            .font(.headline)
-                            .padding()
-                            .background(.blue)
-                            .foregroundStyle(.white)
-                            .clipShape(.capsule)
+            MapReader { proxy in
+                Map(
+                    position: $position,
+                    interactionModes: [.zoom, .rotate, .pan]
+                ) {
+                    ForEach(locations) { location in
+                        Annotation(location.name, coordinate: location.coordinate) {
+                            Text(location.name)
+                                .font(.headline)
+                                .padding()
+                                .background(.blue)
+                                .foregroundStyle(.white)
+                                .clipShape(.capsule)
+                        }
+                        .annotationTitles(.hidden)
                     }
-                    .annotationTitles(.hidden)
                 }
-            }
-            .mapStyle(.imagery)
-            .onMapCameraChange(frequency: .continuous) { context in
-                print(context.region)
+                .mapStyle(.imagery)
+                .onMapCameraChange(frequency: .continuous) { context in
+                    print(context.region)
+                }
+                .onTapGesture { position in
+                    print(position)
+                    if let coordinate = proxy.convert(position, from: .local) {
+                        print(coordinate)
+                    }
+                    
+                }
             }
             
             HStack(spacing: 50) {
