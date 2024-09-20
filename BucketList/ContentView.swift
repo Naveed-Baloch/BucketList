@@ -8,8 +8,24 @@
 import SwiftUI
 import MapKit
 
+struct Location: Identifiable {
+    let id = UUID()
+    var name: String
+    var coordinate: CLLocationCoordinate2D
+}
 
 struct ContentView: View {
+    let locations = [
+        Location(
+            name: "Buckingham Palace",
+            coordinate: CLLocationCoordinate2D(latitude: 51.501, longitude: -0.141)
+        ),
+        Location(
+            name: "Tower of London",
+            coordinate: CLLocationCoordinate2D(latitude: 51.508, longitude: -0.076)
+        )
+    ]
+    
     let initialPostion = MapCameraPosition.region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275),
@@ -29,7 +45,11 @@ struct ContentView: View {
             Map(
                 position: $position,
                 interactionModes: [.zoom, .rotate, .pan]
-            )
+            ) {
+                ForEach(locations) { location in
+                    Marker(location.name, coordinate: location.coordinate)
+                }
+            }
             .mapStyle(.imagery)
             .onMapCameraChange(frequency: .continuous) { context in
                 print(context.region)
