@@ -31,6 +31,9 @@ struct ContentView: View {
                 interactionModes: [.zoom, .rotate, .pan]
             )
             .mapStyle(.imagery)
+            .onMapCameraChange(frequency: .continuous) { context in
+                print(context.region)
+            }
             
             HStack(spacing: 50) {
                 Button("Paris") {
@@ -41,7 +44,7 @@ struct ContentView: View {
                         )
                     )
                 }
-
+                
                 Button("Tokyo") {
                     position = MapCameraPosition.region(
                         MKCoordinateRegion(
