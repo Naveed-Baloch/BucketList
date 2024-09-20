@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import LocalAuthentication
 
 struct Location: Identifiable {
     let id = UUID()
@@ -15,6 +16,7 @@ struct Location: Identifiable {
 }
 
 struct ContentView: View {
+    
     let locations = [
         Location(
             name: "Buckingham Palace",
@@ -40,8 +42,23 @@ struct ContentView: View {
         )
     )
     
+    @State private var isUnlocked = false
+    
     var body: some View {
         VStack {
+            
+            VStack {
+                if isUnlocked {
+                    Text("Unlocked")
+                } else {
+                    Text("Locked")
+                }
+                
+                Button(action: authenticate, label: {
+                    Text("Login")
+                })
+            }
+            
             MapReader { proxy in
                 Map(
                     position: $position,
@@ -91,6 +108,28 @@ struct ContentView: View {
                     )
                 }
             }
+        }
+    }
+    
+    func authenticate() {
+        let context = LAContext()
+        var error: NSError?
+
+        // check whether biometric authentication is possible
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            // it's possible, so go ahead and use it
+            let reason = "We need to unlock your data."
+            
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+                // authentication has now completed
+                if success {
+                    isUnlocked = true
+                } else {
+                    // there was a problem
+                }
+            }
+        } else {
+            // no biometrics
         }
     }
 }
