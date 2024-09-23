@@ -11,7 +11,7 @@ import SwiftUI
 struct LocationEditView: View {
     @Environment(\.dismiss) var dismiss
     var location: Location
-
+    
     @State private var name: String
     @State private var description: String
     var onSave: (Location) -> Void
@@ -19,7 +19,7 @@ struct LocationEditView: View {
     init(location: Location, onSave: @escaping (Location) -> Void) {
         self.location = location
         self.onSave = onSave
-
+        
         _name = State(initialValue: location.name)
         _description = State(initialValue: location.description)
     }
@@ -35,16 +35,19 @@ struct LocationEditView: View {
             .navigationTitle("Place details")
             .toolbar {
                 Button("Save") {
-                    var newLocation = location
-                    newLocation.id = UUID()
-                    newLocation.name = name
-                    newLocation.description = description
-                    
-                    onSave(newLocation)
+                    saveLocation()
                     dismiss()
                 }
             }
+            .onDisappear(perform: saveLocation)
         }
+    }
+    private func saveLocation() {
+        var newLocation = location
+        newLocation.id = UUID()
+        newLocation.name = name
+        newLocation.description = description
+        onSave(newLocation)
     }
 }
 
