@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1D34A2DF2CA1C62E009C7A84 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D34A2DE2CA1C62E009C7A84 /* Location.swift */; };
 		1D34A2E12CA1D4A2009C7A84 /* LocationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D34A2E02CA1D4A2009C7A84 /* LocationEditView.swift */; };
+		1D6262C22CA3277300BD685C /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6262C12CA3277300BD685C /* Result.swift */; };
 		1D8D9A952C9C634E00F215BE /* BucketListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8D9A942C9C634E00F215BE /* BucketListApp.swift */; };
 		1D8D9A972C9C634E00F215BE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8D9A962C9C634E00F215BE /* ContentView.swift */; };
 		1D8D9A992C9C634F00F215BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D8D9A982C9C634F00F215BE /* Assets.xcassets */; };
@@ -38,6 +39,7 @@
 /* Begin PBXFileReference section */
 		1D34A2DE2CA1C62E009C7A84 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		1D34A2E02CA1D4A2009C7A84 /* LocationEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditView.swift; sourceTree = "<group>"; };
+		1D6262C12CA3277300BD685C /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		1D8D9A912C9C634E00F215BE /* BucketList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BucketList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D8D9A942C9C634E00F215BE /* BucketListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketListApp.swift; sourceTree = "<group>"; };
 		1D8D9A962C9C634E00F215BE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 			children = (
 				1D8D9A942C9C634E00F215BE /* BucketListApp.swift */,
 				1D8D9A962C9C634E00F215BE /* ContentView.swift */,
+				1D6262C12CA3277300BD685C /* Result.swift */,
 				1D34A2E02CA1D4A2009C7A84 /* LocationEditView.swift */,
 				1D8D9A982C9C634F00F215BE /* Assets.xcassets */,
 				1D8D9A9A2C9C634F00F215BE /* Preview Content */,
@@ -264,6 +267,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D8D9A972C9C634E00F215BE /* ContentView.swift in Sources */,
+				1D6262C22CA3277300BD685C /* Result.swift in Sources */,
 				1D34A2DF2CA1C62E009C7A84 /* Location.swift in Sources */,
 				1D8D9A952C9C634E00F215BE /* BucketListApp.swift in Sources */,
 				1D34A2E12CA1D4A2009C7A84 /* LocationEditView.swift in Sources */,
