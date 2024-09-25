@@ -11,7 +11,9 @@ import LocalAuthentication
 
 
 struct ContentView: View {
-    @State private var viewModal = ViewModal()
+    @State private var viewModel = ViewModel()
+    private let mapStyles = MapTheme.allCases
+    @State private var selectedMapTheme = MapTheme.hybrid
     
     let startPosition = MapCameraPosition.region(
         MKCoordinateRegion(
@@ -21,36 +23,76 @@ struct ContentView: View {
     )
     
     var body: some View {
-        MapReader { proxy in
-            Map(initialPosition: startPosition) {
-                ForEach(viewModal.locations) { location in
-                    Annotation(location.name, coordinate: location.coordinate) {
-                        Image(systemName: "star.circle")
-                            .resizable()
-                            .foregroundStyle(.red)
-                            .frame(width: 30, height: 30)
-                            .background(.white)
-                            .clipShape(.circle)
-                            .onLongPressGesture {
-                                viewModal.selectedPlace = location
+        if viewModel.isUnlocked {
+            ZStack {
+                MapReader { proxy in
+                    Map(initialPosition: startPosition) {
+                        ForEach(viewModel.locations) { location in
+                            Annotation(location.name, coordinate: location.coordinate) {
+                                Image(systemName: "star.circle")
+                                    .resizable()
+                                    .foregroundStyle(.red)
+                                    .frame(width: 30, height: 30)
+                                    .background(.white)
+                                    .clipShape(.circle)
+                                    .onLongPressGesture {
+                                        viewModel.selectedPlace = location
+                                    }
                             }
+                        }
+                    }
+                    .mapStyle(selectedMapTheme.style)
+                    .onTapGesture { position in
+                        if let coordinate = proxy.convert(position, from: .local) {
+                            viewModel.addLocation(at: coordinate)
+                        }
+                    }
+                    .sheet(item: $viewModel.selectedPlace) { place in
+                        LocationEditView(location: place) { newLocation in
+                            viewModel.update(location: newLocation)
+                        }
                     }
                 }
-            }
-            .mapStyle(.hybrid)
-            .onTapGesture { position in
-                if let coordinate = proxy.convert(position, from: .local) {
-                    viewModal.addLocation(at: coordinate)
-                }
-            }
-            .sheet(item: $viewModal.selectedPlace) { place in
-                LocationEditView(location: place) { newLocation in
-                    viewModal.update(location: newLocation)
+                
+                VStack {
+                    Spacer()
+                    Picker("Map Style", selection: $selectedMapTheme) {
+                        ForEach(mapStyles, id: \.self) { style in
+                            Text(style.rawValue)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding()
                 }
             }
         }
+        else  {
+            Button("Unlock Places", action: viewModel.authenticate)
+                .padding()
+                .background(.blue)
+                .foregroundStyle(.white)
+                .clipShape(.capsule)
+        }
     }
 }
+
+enum MapTheme: String, CaseIterable {
+    case hybrid = "Hybrid"
+    case imagery = "Imagery"
+    case standard = "Standard"
+    
+    var style: MapStyle {
+        switch self {
+        case .hybrid:
+            return MapStyle.hybrid
+        case .imagery:
+            return MapStyle.imagery
+        case .standard:
+            return MapStyle.standard
+        }
+    }
+}
+
 
 #Preview {
     ContentView()
