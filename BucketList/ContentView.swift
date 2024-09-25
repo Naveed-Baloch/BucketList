@@ -13,7 +13,7 @@ import LocalAuthentication
 struct ContentView: View {
     @State private var viewModel = ViewModel()
     private let mapStyles = MapTheme.allCases
-    @State private var selectedMapTheme = MapTheme.hybrid
+    @State private var selectedMapTheme = MapTheme.standard
     
     let startPosition = MapCameraPosition.region(
         MKCoordinateRegion(
